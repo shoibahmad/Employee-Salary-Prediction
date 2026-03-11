@@ -12,8 +12,8 @@ dist/
 build/
 
 # Models and Data (generated files)
-backend/models/*.pkl
-backend/models/*.json
+# backend/models/*.pkl
+# backend/models/*.json
 backend/employee_dataset.csv
 
 # Node

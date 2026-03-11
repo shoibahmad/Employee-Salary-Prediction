@@ -1,0 +1,40 @@
+{
+  "random_forest": {
+    "mae": 26023.885262477317,
+    "rmse": 55977.652871092716,
+    "r2_score": 0.9561988866374967,
+    "accuracy": 95.61988866374968,
+    "n_estimators": 100,
+    "training_samples": 80000
+  },
+  "gradient_boosting": {
+    "mae": 21015.288579544038,
+    "rmse": 42453.186022426,
+    "r2_score": 0.9748072047010521,
+    "accuracy": 97.48072047010521,
+    "n_estimators": 200,
+    "training_samples": 80000
+  },
+  "feature_columns": [
+    "age",
+    "years_experience",
+    "education_encoded",
+    "department_encoded",
+    "position_encoded",
+    "location_encoded",
+    "performance_score",
+    "technical_skills",
+    "soft_skills",
+    "certifications",
+    "projects_completed",
+    "work_hours_per_week",
+    "remote_work_percentage"
+  ],
+  "categorical_columns": [
+    "education",
+    "department",
+    "position",
+    "location"
+  ],
+  "dataset_size": 100000
+}
