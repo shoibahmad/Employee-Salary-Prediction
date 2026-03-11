@@ -1,0 +1,221 @@
+/* ══════════════════════════════════════════════════════
+   EMPLOYEES
+══════════════════════════════════════════════════════ */
+.employees-container {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Header ────────────────────────────────────────── */
+.employees-header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.btn-export {
+  padding: 10px 20px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.btn-export:hover:not(:disabled) {
+  border-color: rgba(56, 189, 248, 0.5);
+  color: var(--color-secondary);
+  background: rgba(56, 189, 248, 0.08);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(56, 189, 248, 0.2);
+}
+
+.btn-export:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* ── Add Employee Form ──────────────────────────────── */
+.employee-form-container {
+  background: rgba(99, 102, 241, 0.05);
+  border: 1px solid rgba(129, 140, 248, 0.22);
+  border-radius: 20px;
+  padding: 28px;
+  margin-bottom: 24px;
+  animation: fadeInUp 0.35s ease-out;
+}
+
+.employee-form-container h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 18px;
+}
+
+.employee-form .form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+/* ── Employee List ───────────────────────────────────── */
+.employees-list h3 {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin-bottom: 18px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.employees-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 18px;
+}
+
+/* ── Employee Card ────────────────────────────────────── */
+.employee-card {
+  position: relative;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 20px;
+  padding: 26px 22px;
+  transition: all var(--transition-normal);
+  text-align: center;
+}
+
+/* gradient top bar */
+.employee-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #5b5ef4, #818cf8, #38bdf8);
+  border-radius: 20px 20px 0 0;
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+/* corner glow blob */
+.employee-card::after {
+  content: '';
+  position: absolute;
+  bottom: -50px;
+  right: -50px;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(91, 94, 244, 0.12) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+.employee-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(129, 140, 248, 0.28);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(129, 140, 248, 0.18);
+}
+
+.employee-card:hover::before,
+.employee-card:hover::after {
+  opacity: 1;
+}
+
+.employee-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #5b5ef4, #38bdf8);
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: 800;
+  font-family: var(--font-heading);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 14px;
+  box-shadow: 0 6px 24px rgba(91, 94, 244, 0.5);
+}
+
+.employee-card h4 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 3px;
+}
+
+.employee-email {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+.employee-details {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 7px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.detail-item:last-child {
+  border-bottom: none;
+}
+
+.detail-label {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+
+.detail-value {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.detail-value.salary {
+  color: var(--color-success);
+  font-weight: 700;
+}
+
+/* ── Responsive ─────────────────────────────────────── */
+@media (max-width: 768px) {
+  .employees-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .employees-header {
+    justify-content: stretch;
+  }
+
+  .employees-header>* {
+    flex: 1;
+    justify-content: center;
+  }
+}
