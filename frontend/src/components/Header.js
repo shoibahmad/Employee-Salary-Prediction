@@ -55,6 +55,13 @@ function Header() {
           >
             History
           </Link>
+          <Link
+            to="/budgeting"
+            className={`nav-link ${isActive('/budgeting') ? 'active' : ''}`}
+            onClick={() => setMenuOpen(false)}
+          >
+            Budgeting
+          </Link>
         </nav>
 
         <div className="header-controls">

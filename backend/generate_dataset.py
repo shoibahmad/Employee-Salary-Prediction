@@ -21,8 +21,8 @@ positions = ['Intern', 'Junior', 'Mid-Level', 'Senior', 'Lead', 'Manager',
 
 education_levels = ['High School', 'Associate', 'Bachelor', 'Master', 'PhD', 'MBA']
 
-locations = ['New York', 'San Francisco', 'Austin', 'Seattle', 'Boston', 
-             'Chicago', 'Los Angeles', 'Denver', 'Atlanta', 'Miami']
+locations = ['Delhi', 'Bihar', 'Uttar Pradesh', 'Madhya Pradesh', 'Arunachal Pradesh', 
+             'Puducherry', 'Vishakhapatnam', 'Mumbai', 'Dadar', 'Maharashtra']
 
 skills_categories = ['Technical', 'Management', 'Communication', 'Leadership', 'Analytical']
 

@@ -87,11 +87,21 @@ function Predict() {
     setPrediction(null);
 
     try {
-      const result = await makePrediction({
+      const data = {
         ...formData,
         projects_completed: formData.projects_completed || formData.years_experience * 2
+      };
+
+      // Fetch predictions from both models simultaneously
+      const [modelRes, aiRes] = await Promise.all([
+        axios.post(`${API_URL}/predict/model`, data),
+        axios.post(`${API_URL}/predict/ai`, data)
+      ]);
+
+      setPrediction({
+        model: modelRes.data,
+        ai: aiRes.data
       });
-      setPrediction(result);
     } catch (err) {
       setError(err.response?.data?.error || 'Prediction failed');
     } finally {
@@ -358,31 +368,66 @@ function Predict() {
         )}
 
         {prediction && inputMode === 'single' && (
-          <div className="prediction-result">
-            <h2>Prediction Result</h2>
-            <div className="result-card">
-              <div className="result-item">
-                <span className="result-label">Predicted Salary:</span>
-                <span className="result-value salary">
-                  ${prediction.predicted_salary.toLocaleString()}
-                </span>
-              </div>
-              <div className="result-item">
-                <span className="result-label">Model Used:</span>
-                <span className="result-value">{prediction.model_type}</span>
-              </div>
-              <div className="result-item">
-                <span className="result-label">Confidence:</span>
-                <span className="result-value confidence">
-                  {(prediction.confidence * 100).toFixed(1)}%
-                </span>
-              </div>
-              {prediction.model_accuracy && (
-                <div className="result-item">
-                  <span className="result-label">Model Accuracy:</span>
-                  <span className="result-value">{prediction.model_accuracy}</span>
+          <div className="prediction-results-compare">
+            <h2 className="comparison-title">Model Comparison Analysis</h2>
+            <div className="compare-grid">
+              {/* Model Based Card */}
+              <div className="result-card compared glass-card">
+                <div className="result-header">
+                  <span className="model-badge">🤖 RandomForest</span>
+                  <h3>Model Prediction</h3>
                 </div>
-              )}
+                <div className="result-main">
+                  <p className="result-label">ESTIMATED SALARY</p>
+                  <p className="result-value salary">
+                    ${prediction.model.predicted_salary.toLocaleString()}
+                  </p>
+                </div>
+                <div className="result-footer">
+                  <div className="confidence-metric">
+                    <span>Confidence</span>
+                    <div className="mini-progress">
+                      <div className="fill" style={{ width: `${prediction.model.confidence * 100}%` }}></div>
+                    </div>
+                    <strong>{(prediction.model.confidence * 100).toFixed(1)}%</strong>
+                  </div>
+                </div>
+              </div>
+
+              {/* AI Based Card */}
+              <div className="result-card compared featured glass-card">
+                <div className="result-header">
+                  <span className="model-badge ai">🧠 GradientBoosting</span>
+                  <h3>AI Recommendation</h3>
+                </div>
+                <div className="result-main">
+                  <p className="result-label">ESTIMATED SALARY</p>
+                  <p className="result-value salary highlight">
+                    ${prediction.ai.predicted_salary.toLocaleString()}
+                  </p>
+                </div>
+                <div className="result-footer">
+                  <div className="confidence-metric">
+                    <span>Confidence</span>
+                    <div className="mini-progress">
+                      <div className="fill featured" style={{ width: `${prediction.ai.confidence * 100}%` }}></div>
+                    </div>
+                    <strong>{(prediction.ai.confidence * 100).toFixed(1)}%</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="variance-insight">
+              <div className="insight-icon">💡</div>
+              <p>
+                <strong>Variance Insight:</strong> There is a 
+                {` $${Math.abs(prediction.model.predicted_salary - prediction.ai.predicted_salary).toLocaleString()} `}
+                difference between models. 
+                {Math.abs(prediction.model.predicted_salary - prediction.ai.predicted_salary) / prediction.ai.predicted_salary < 0.05 
+                  ? " High model consensus indicates a very reliable prediction."
+                  : " Moderate variance suggests complex feature interactions; using the AI-based average is recommended."}
+              </p>
             </div>
           </div>
         )}

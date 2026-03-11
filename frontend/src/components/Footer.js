@@ -44,14 +44,6 @@ function Footer() {
                 <div className="footer-logo-icon">💼</div>
                 <span className="footer-logo-text">SalaryPredict</span>
               </div>
-              <p className="footer-tagline">
-                AI-powered salary predictions using Random Forest & Gradient Boosting machine learning models.
-              </p>
-              <div className="footer-badges">
-                {techBadges.map(badge => (
-                  <span key={badge} className="footer-badge">{badge}</span>
-                ))}
-              </div>
             </div>
 
             {/* Navigation Column */}
@@ -85,37 +77,6 @@ function Footer() {
               </ul>
             </div>
 
-            {/* Tech Stack Column */}
-            <div className="footer-col">
-              <h4 className="footer-col-heading">Tech Stack</h4>
-              <div className="footer-tech-list">
-                <div className="footer-tech-item">
-                  <span className="footer-tech-dot backend" />
-                  <span className="footer-tech-label">Backend</span>
-                  <span className="footer-tech-value">Python · Flask</span>
-                </div>
-                <div className="footer-tech-item">
-                  <span className="footer-tech-dot ml" />
-                  <span className="footer-tech-label">ML</span>
-                  <span className="footer-tech-value">scikit-learn · joblib</span>
-                </div>
-                <div className="footer-tech-item">
-                  <span className="footer-tech-dot frontend" />
-                  <span className="footer-tech-label">Frontend</span>
-                  <span className="footer-tech-value">React 18 · Axios</span>
-                </div>
-                <div className="footer-tech-item">
-                  <span className="footer-tech-dot charts" />
-                  <span className="footer-tech-label">Charts</span>
-                  <span className="footer-tech-value">Chart.js · react-chartjs-2</span>
-                </div>
-                <div className="footer-tech-item">
-                  <span className="footer-tech-dot data" />
-                  <span className="footer-tech-label">Data</span>
-                  <span className="footer-tech-value">pandas · numpy</span>
-                </div>
-              </div>
-            </div>
 
           </div>
 

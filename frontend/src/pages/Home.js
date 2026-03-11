@@ -25,6 +25,7 @@ function Home() {
 
       <section className="features-section">
         <h2 className="section-title">Key Features</h2>
+        <p className="section-subtitle">Unlock insights and precision with our cutting-edge AI-driven salary analytics platform.</p>
         <div className="features-grid">
           <div className="feature-card">
             <div className="feature-icon">🤖</div>

@@ -11,7 +11,14 @@ CORS(app)
 
 
 # Store employees and predictions
-employees_db = []
+employees_db = [
+    {"id": 1, "name": "Aarav Sharma", "department": "IT", "position": "Senior Developer", "salary": 85000, "performance_score": 4.8},
+    {"id": 2, "name": "Ishani Gupta", "department": "HR", "position": "HR Manager", "salary": 62000, "performance_score": 4.2},
+    {"id": 3, "name": "Vihaan Verma", "department": "Finance", "position": "Financial Analyst", "salary": 70000, "performance_score": 3.9},
+    {"id": 4, "name": "Ananya Reddy", "department": "Marketing", "position": "Marketing Lead", "salary": 75000, "performance_score": 4.5},
+    {"id": 5, "name": "Arjun Malhotra", "department": "IT", "position": "Junior Developer", "salary": 45000, "performance_score": 3.5},
+    {"id": 6, "name": "Saanvi Iyer", "department": "Operations", "position": "Operations Manager", "salary": 68000, "performance_score": 4.1}
+]
 predictions_history = []
 
 # Load trained models and encoders
@@ -179,26 +186,92 @@ def get_predictions_history():
 
 @app.route('/api/analytics', methods=['GET'])
 def get_analytics():
-    if not predictions_history:
+    if not predictions_history and not employees_db:
         return jsonify({
             'total_predictions': 0,
             'avg_salary': 0,
             'department_stats': {},
-            'position_stats': {}
+            'position_stats': {},
+            'retention_risk': {'high': 0, 'medium': 0, 'low': 0},
+            'market_gap': 0
         })
     
-    df = pd.DataFrame(predictions_history)
+    # Base analytics from history
+    df_history = pd.DataFrame(predictions_history) if predictions_history else pd.DataFrame()
     
+    # Retention Risk Analysis (using Employees DB)
+    retention_risk = {'high': 0, 'medium': 0, 'low': 0}
+    market_gaps = []
+    
+    if employees_db:
+        for emp in employees_db:
+            # Simple simulation: compare current salary to a "market" value
+            # In a real app, we'd run a prediction for each employee
+            current_salary = float(emp.get('salary', 0))
+            
+            # Simulated market prediction (current + random variance + tenure bonus)
+            # For demo purposes, we'll assume the 'market' is 5-20% higher than current
+            # except for high performers
+            market_val = current_salary * np.random.uniform(1.05, 1.25)
+            gap_pct = (market_val - current_salary) / market_val
+            market_gaps.append(gap_pct * 100)
+            
+            if gap_pct > 0.18:
+                retention_risk['high'] += 1
+            elif gap_pct > 0.10:
+                retention_risk['medium'] += 1
+            else:
+                retention_risk['low'] += 1
+
     analytics = {
         'total_predictions': len(predictions_history),
-        'avg_salary': round(df['predicted_salary'].mean(), 2),
-        'min_salary': round(df['predicted_salary'].min(), 2),
-        'max_salary': round(df['predicted_salary'].max(), 2),
-        'department_stats': df.groupby('department')['predicted_salary'].mean().to_dict(),
-        'position_stats': df.groupby('position')['predicted_salary'].mean().to_dict()
+        'avg_salary': round(df_history['predicted_salary'].mean(), 2) if not df_history.empty else 0,
+        'min_salary': round(df_history['predicted_salary'].min(), 2) if not df_history.empty else 0,
+        'max_salary': round(df_history['predicted_salary'].max(), 2) if not df_history.empty else 0,
+        'department_stats': df_history.groupby('department')['predicted_salary'].mean().to_dict() if not df_history.empty else {},
+        'position_stats': df_history.groupby('position')['predicted_salary'].mean().to_dict() if not df_history.empty else {},
+        'retention_risk': retention_risk,
+        'avg_market_gap': round(np.mean(market_gaps), 2) if market_gaps else 0
     }
     
     return jsonify(analytics)
+
+@app.route('/api/budget/simulate', methods=['POST'])
+def simulate_raises():
+    try:
+        data = request.json
+        dept = data.get('department')
+        total_budget = float(data.get('budget', 0))
+        
+        dept_employees = [e for e in employees_db if e['department'] == dept] if dept != 'All' else employees_db
+        
+        if not dept_employees:
+            return jsonify({'error': 'No employees found for this selection'}), 404
+            
+        # Distribute budget based on performance (simulated)
+        total_perf = sum([float(e.get('performance_score', 3)) for e in dept_employees])
+        
+        results = []
+        for emp in dept_employees:
+            perf = float(emp.get('performance_score', 3))
+            suggested_raise = (perf / total_perf) * total_budget
+            new_salary = float(emp['salary']) + suggested_raise
+            
+            results.append({
+                'name': emp['name'],
+                'current_salary': float(emp['salary']),
+                'suggested_raise': round(suggested_raise, 2),
+                'new_salary': round(new_salary, 2),
+                'perf_bonus_pct': round((suggested_raise / float(emp['salary'])) * 100, 2)
+            })
+            
+        return jsonify({
+            'employees': results,
+            'total_distributed': round(sum([r['suggested_raise'] for r in results]), 2),
+            'remaining_budget': round(total_budget - sum([r['suggested_raise'] for r in results]), 2)
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
 
 @app.route('/api/options', methods=['GET'])
 def get_options():

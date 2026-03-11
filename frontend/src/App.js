@@ -7,6 +7,7 @@ import Predict from './pages/Predict';
 import Employees from './pages/Employees';
 import Analytics from './pages/Analytics';
 import History from './pages/History';
+import RaiseSimulator from './pages/RaiseSimulator';
 import './App.css';
 
 import { ThemeProvider } from './contexts/ThemeContext';
@@ -24,6 +25,7 @@ function App() {
               <Route path="/employees" element={<Employees />} />
               <Route path="/analytics" element={<Analytics />} />
               <Route path="/history" element={<History />} />
+              <Route path="/budgeting" element={<RaiseSimulator />} />
             </Routes>
           </main>
           <Footer />

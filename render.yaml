@@ -13,6 +13,6 @@ services:
       - key: NODE_VERSION
         value: 18.0.0
       - key: REACT_APP_API_URL
-        value: "" # Empty means use the same host
+        value: "/api" # Use relative path for monolith
       - key: RENDER
         value: true
