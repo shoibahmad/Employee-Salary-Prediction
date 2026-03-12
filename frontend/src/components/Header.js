@@ -2,10 +2,12 @@ import React, { useState, useContext } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ThemeContext } from '../contexts/ThemeContext';
 import { useAuth } from '../contexts/AuthContext';
+import ConfirmModal from './ConfirmModal';
 import './Header.css';
 
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const { theme, toggleTheme } = useContext(ThemeContext);
@@ -58,7 +60,7 @@ function Header() {
           </button>
           
           {currentUser && (
-            <button className="desktop-logout-btn" onClick={handleLogout}>
+            <button className="desktop-logout-btn" onClick={() => setShowLogoutModal(true)}>
               Logout
             </button>
           )}
@@ -92,7 +94,7 @@ function Header() {
               <Link to="/history" className={`mobile-link ${isActive('/history') ? 'active' : ''}`} onClick={() => setMenuOpen(false)}>History</Link>
               <Link to="/budgeting" className={`mobile-link ${isActive('/budgeting') ? 'active' : ''}`} onClick={() => setMenuOpen(false)}>Budgeting</Link>
               <div className="drawer-footer">
-                <button className="drawer-logout-btn" onClick={() => { handleLogout(); setMenuOpen(false); }}>
+                <button className="drawer-logout-btn" onClick={() => { setShowLogoutModal(true); setMenuOpen(false); }}>
                   Logout
                 </button>
               </div>
@@ -108,6 +110,15 @@ function Header() {
       </div>
 
       {menuOpen && <div className="drawer-backdrop" onClick={() => setMenuOpen(false)}></div>}
+
+      <ConfirmModal
+        isOpen={showLogoutModal}
+        title="Logout Confirmation"
+        message="Are you sure you want to log out of your account? Any unsaved progress may be lost."
+        confirmText="Logout"
+        onConfirm={handleLogout}
+        onCancel={() => setShowLogoutModal(false)}
+      />
     </header>
   );
 }
