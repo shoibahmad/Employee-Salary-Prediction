@@ -164,7 +164,7 @@ function History() {
                     <div className="result-salary">
                       <span className="result-label">Predicted Salary</span>
                       <span className="result-amount">
-                        ${item.predicted_salary.toLocaleString()}
+                        ₹{item.predicted_salary.toLocaleString('en-IN')}
                       </span>
                     </div>
                     <div className="result-confidence">

@@ -229,7 +229,7 @@ function Employees() {
                     <div className="detail-item">
                       <span className="detail-label">Salary:</span>
                       <span className="detail-value salary">
-                        ${parseFloat(employee.salary).toLocaleString()}
+                        ₹{parseFloat(employee.salary).toLocaleString('en-IN')}
                       </span>
                     </div>
                     <div className="detail-item">

@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { db } from '../firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { useAuth } from '../contexts/AuthContext';
 import './Predict.css';
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
 function Predict() {
+  const { currentUser } = useAuth();
   const [inputMode, setInputMode] = useState('single'); // 'single' or 'batch'
   const [formData, setFormData] = useState({
     name: '',
@@ -102,10 +106,33 @@ function Predict() {
         model: modelRes.data,
         ai: aiRes.data
       });
+
+      // Clear loading state as soon as results are ready
+      setLoading(false);
+
+      // Save to Firestore (non-blocking)
+      saveToFirestore(data, modelRes.data, aiRes.data);
+
     } catch (err) {
       setError(err.response?.data?.error || 'Prediction failed');
-    } finally {
       setLoading(false);
+    }
+  };
+
+  const saveToFirestore = async (input, modelPred, aiPred) => {
+    if (!currentUser) return;
+    
+    try {
+      await addDoc(collection(db, 'predictions'), {
+        userId: currentUser.uid,
+        userEmail: currentUser.email,
+        inputData: input,
+        modelResult: modelPred,
+        aiResult: aiPred,
+        timestamp: serverTimestamp()
+      });
+    } catch (err) {
+      console.error("Error saving prediction to Firestore:", err);
     }
   };
 
@@ -173,6 +200,21 @@ function Predict() {
 
       setBatchResults(results);
       setLoading(false);
+
+      // Save batch summary to Firestore
+      if (results.length > 0 && currentUser) {
+        try {
+          await addDoc(collection(db, 'prediction_batches'), {
+            userId: currentUser.uid,
+            userEmail: currentUser.email,
+            recordCount: results.length,
+            successCount: results.filter(r => r.status === 'Success').length,
+            timestamp: serverTimestamp()
+          });
+        } catch (err) {
+          console.error("Error saving batch to Firestore:", err);
+        }
+      }
     };
 
     reader.onerror = () => {
@@ -309,9 +351,11 @@ function Predict() {
               </div>
             </div>
 
-            <button type="submit" className="btn btn-primary btn-submit" disabled={loading}>
-              {loading ? 'Predicting...' : 'Predict Salary'}
-            </button>
+            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
+              <button type="submit" className="btn btn-primary btn-md" disabled={loading}>
+                {loading ? 'Predicting...' : (prediction ? 'Update Prediction' : 'Predict Salary')}
+              </button>
+            </div>
           </form>
         ) : (
           <div className="batch-upload-section">
@@ -352,7 +396,7 @@ function Predict() {
                         <td>{res.department}</td>
                         <td>{res.job_role}</td>
                         <td style={{ fontWeight: 'bold', color: 'var(--color-success)' }}>
-                          {res.status === 'Success' ? `$${res.salary.toLocaleString()}` : 'N/A'}
+                          {res.status === 'Success' ? `₹${res.salary.toLocaleString('en-IN')}` : 'N/A'}
                         </td>
                         <td>{res.status === 'Success' ? `${(res.confidence * 100).toFixed(1)}%` : '-'}</td>
                         <td style={{ color: res.status === 'Success' ? 'var(--color-success)' : 'var(--color-danger)' }}>
@@ -380,7 +424,7 @@ function Predict() {
                 <div className="result-main">
                   <p className="result-label">ESTIMATED SALARY</p>
                   <p className="result-value salary">
-                    ${prediction.model.predicted_salary.toLocaleString()}
+                    ₹{prediction.model.predicted_salary.toLocaleString('en-IN')}
                   </p>
                 </div>
                 <div className="result-footer">
@@ -403,7 +447,7 @@ function Predict() {
                 <div className="result-main">
                   <p className="result-label">ESTIMATED SALARY</p>
                   <p className="result-value salary highlight">
-                    ${prediction.ai.predicted_salary.toLocaleString()}
+                    ₹{prediction.ai.predicted_salary.toLocaleString('en-IN')}
                   </p>
                 </div>
                 <div className="result-footer">

@@ -195,7 +195,7 @@ function Analytics() {
             <div className="stat-icon">💰</div>
             <div className="stat-content">
               <h3>Average Salary</h3>
-              <p className="stat-value">${analytics.avg_salary.toLocaleString()}</p>
+              <p className="stat-value">₹{analytics.avg_salary.toLocaleString('en-IN')}</p>
             </div>
           </div>
         </div>

@@ -188,6 +188,13 @@ textarea {
   transition: all var(--transition-fast);
 }
 
+/* Explicitly style dropdown options for dark mode consistency */
+select option {
+  background-color: var(--bg-secondary);
+  color: var(--text-main);
+  padding: 8px;
+}
+
 input:focus,
 select:focus,
 textarea:focus {

@@ -50,7 +50,7 @@ function RaiseSimulator() {
 
         <form onSubmit={handleSimulate} className="simulator-controls glass-form">
           <div className="form-group">
-            <label>Total Budget ($)</label>
+            <label>Total Budget (₹)</label>
             <input 
               type="number" 
               value={budget} 
@@ -81,7 +81,7 @@ function RaiseSimulator() {
             <div className="summary-cards">
               <div className="stat-card">
                 <h3>Total Distributed</h3>
-                <p className="stat-value">${results.total_distributed.toLocaleString()}</p>
+                <p className="stat-value">₹{results.total_distributed.toLocaleString('en-IN')}</p>
               </div>
               <div className="stat-card">
                 <h3>Avg. Bonus %</h3>
@@ -108,9 +108,9 @@ function RaiseSimulator() {
                     {results.employees.map((emp, i) => (
                       <tr key={i}>
                         <td className="emp-name">{emp.name}</td>
-                        <td>${emp.current_salary.toLocaleString()}</td>
-                        <td className="raise-amt">+${emp.suggested_raise.toLocaleString()}</td>
-                        <td className="new-salary">${emp.new_salary.toLocaleString()}</td>
+                        <td>₹{emp.current_salary.toLocaleString('en-IN')}</td>
+                        <td className="raise-amt">+₹{emp.suggested_raise.toLocaleString('en-IN')}</td>
+                        <td className="new-salary">₹{emp.new_salary.toLocaleString('en-IN')}</td>
                         <td>
                           <span className={`bonus-badge ${emp.perf_bonus_pct > 10 ? 'high' : 'normal'}`}>
                             {emp.perf_bonus_pct}%
