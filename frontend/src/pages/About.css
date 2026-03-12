@@ -1,0 +1,262 @@
+/* ══════════════════════════════════════════════════════
+   ABOUT PAGE — Technical Deep Dive
+   ══════════════════════════════════════════════════════ */
+
+.about-page {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+  padding-bottom: 80px;
+}
+
+/* ── Hero ── */
+.about-hero {
+  position: relative;
+  text-align: center;
+  padding: 80px 20px;
+  background: var(--bg-glass);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: var(--glass-border-bright);
+  border-radius: 40px;
+  overflow: hidden;
+}
+
+.tech-badge {
+  display: inline-block;
+  padding: 6px 16px;
+  background: hsla(var(--color-primary-h), var(--color-primary-s), var(--color-primary-l), 0.1);
+  border: 1px solid hsla(var(--color-primary-h), var(--color-primary-s), var(--color-primary-l), 0.2);
+  color: var(--color-primary);
+  border-radius: 100px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 24px;
+}
+
+.about-title {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 20px;
+  color: #fff;
+}
+
+.about-title span {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.about-subtitle {
+  font-size: 1.2rem;
+  color: var(--text-muted);
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* ── Stack Cards ── */
+.stack-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 24px;
+}
+
+.stack-card {
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  transition: all var(--transition-normal);
+}
+
+.stack-card:hover {
+  transform: translateY(-8px);
+  background: var(--bg-card-hover);
+  border-color: var(--color-primary);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 28px;
+}
+
+.category-icon {
+  font-size: 2.2rem;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: hsla(var(--color-primary-h), var(--color-primary-s), var(--color-primary-l), 0.08);
+  border-radius: 18px;
+}
+
+.tech-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+  max-width: 180px;
+}
+
+.tag {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  color: var(--text-muted);
+}
+
+.category-title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  margin-bottom: 16px;
+  color: #fff;
+}
+
+.category-desc {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.highlights-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: auto;
+}
+
+.highlights-list li {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-main);
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.check {
+  color: var(--color-primary);
+  font-weight: 900;
+}
+
+/* ── Architecture Workflow ── */
+.architecture-section {
+  padding: 60px;
+  text-align: center;
+}
+
+.section-title.text-gradient {
+  font-size: 2.2rem;
+  margin-bottom: 12px;
+}
+
+.flow-diagram {
+  margin-top: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.flow-node {
+  padding: 20px 24px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  min-width: 120px;
+}
+
+.node-icon {
+  font-size: 1.8rem;
+}
+
+.flow-node span {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.flow-node.highlight {
+  border-color: var(--color-primary);
+  background: hsla(var(--color-primary-h), var(--color-primary-s), var(--color-primary-l), 0.05);
+}
+
+.flow-node.highlight span {
+  color: var(--color-primary);
+}
+
+.flow-arrow {
+  font-size: 1.5rem;
+  color: var(--text-muted);
+  opacity: 0.5;
+}
+
+/* ── CTA ── */
+.about-footer-cta {
+  text-align: center;
+  padding: 60px 0;
+}
+
+.about-footer-cta h2 {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 32px;
+}
+
+.cta-btns {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .flow-diagram {
+    gap: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .about-hero {
+    padding: 60px 24px;
+  }
+  
+  .stack-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .flow-diagram {
+    flex-direction: column;
+  }
+
+  .flow-arrow {
+    transform: rotate(90deg);
+  }
+
+  .architecture-section {
+    padding: 40px 24px;
+  }
+
+  .cta-btns {
+    flex-direction: column;
+    padding: 0 40px;
+  }
+}

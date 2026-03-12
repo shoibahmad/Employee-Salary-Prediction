@@ -16,6 +16,7 @@ import PrivateRoute from './components/PrivateRoute';
 import LandingPage from './pages/LandingPage';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import About from './pages/About';
 
 function App() {
   return (
@@ -60,6 +61,7 @@ function App() {
                     <RaiseSimulator />
                   </PrivateRoute>
                 } />
+                <Route path="/about" element={<About />} />
               </Routes>
             </main>
             <Footer />

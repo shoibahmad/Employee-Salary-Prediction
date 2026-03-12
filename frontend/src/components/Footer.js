@@ -13,6 +13,7 @@ function Footer() {
     { to: '/employees', label: 'Employees' },
     { to: '/analytics', label: 'Analytics' },
     { to: '/history', label: 'History' },
+    { to: '/about', label: 'Tech Stack' },
   ];
 
   const legalLinks = [

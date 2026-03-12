@@ -44,10 +44,12 @@ function Header() {
               <Link to="/analytics" className={`nav-link ${isActive('/analytics') ? 'active' : ''}`}>Analytics</Link>
               <Link to="/history" className={`nav-link ${isActive('/history') ? 'active' : ''}`}>History</Link>
               <Link to="/budgeting" className={`nav-link ${isActive('/budgeting') ? 'active' : ''}`}>Budgeting</Link>
+              <Link to="/about" className={`nav-link ${isActive('/about') ? 'active' : ''}`}>Tech Stack</Link>
             </div>
           ) : (
             <div className="nav-items">
               <Link to="/landing" className={`nav-link ${isActive('/landing') ? 'active' : ''}`}>Features</Link>
+              <Link to="/about" className={`nav-link ${isActive('/about') ? 'active' : ''}`}>Tech Stack</Link>
               <Link to="/login" className="nav-link">Login</Link>
               <Link to="/signup" className="btn btn-primary btn-small">Sign Up</Link>
             </div>
@@ -102,6 +104,7 @@ function Header() {
           ) : (
             <>
               <Link to="/landing" className="mobile-link" onClick={() => setMenuOpen(false)}>Features</Link>
+              <Link to="/about" className="mobile-link" onClick={() => setMenuOpen(false)}>Tech Stack</Link>
               <Link to="/login" className="mobile-link" onClick={() => setMenuOpen(false)}>Login</Link>
               <Link to="/signup" className="mobile-btn btn-primary" onClick={() => setMenuOpen(false)}>Sign Up</Link>
             </>
